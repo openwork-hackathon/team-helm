@@ -1,13 +1,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { SessionManager } from '@/components/SessionManager';
 import { ThreadCard } from '@/components/ThreadCard';
 import { CreateThreadForm } from '@/components/CreateThreadForm';
+import { ThreadActions } from '@/components/ThreadActions';
 import type { Thread } from '@/types/thread';
 
 export default function Home() {
   const [threads, setThreads] = useState<Thread[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedThread, setSelectedThread] = useState<Thread | null>(null);
 
   const fetchThreads = async () => {
     const res = await fetch('/api/threads');
@@ -18,6 +21,9 @@ export default function Home() {
 
   useEffect(() => {
     fetchThreads();
+    // Real-time updates every 30 seconds
+    const interval = setInterval(fetchThreads, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   const handleCreateThread = async (threadData: {
@@ -34,7 +40,17 @@ export default function Home() {
     });
     
     if (res.ok) {
-      await fetchThreads(); // Refresh the list
+      await fetchThreads();
+    }
+  };
+
+  const handleUpdateThread = async (updatedThread: Thread) => {
+    // TODO: Implement PUT endpoint
+    console.log('Update thread:', updatedThread);
+    // For now, just update local state
+    setThreads(threads.map(t => t.id === updatedThread.id ? updatedThread : t));
+    if (selectedThread?.id === updatedThread.id) {
+      setSelectedThread(updatedThread);
     }
   };
 
@@ -42,17 +58,20 @@ export default function Home() {
     <main className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
-        <div className="max-w-6xl mx-auto px-6 py-4">
+        <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <h1 className="text-2xl font-bold">🧭 HELM</h1>
               <span className="text-sm text-gray-500 hidden sm:inline">
-                Human-agent continuity
+                Real-Time Session Manager
               </span>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center">
+              <div className="px-3 py-1 bg-blue-50 rounded-md border border-blue-200">
+                <span className="text-xs text-blue-600 font-medium">{threads.length} Sessions</span>
+              </div>
               <div className="px-3 py-1 bg-green-50 rounded-md border border-green-200">
-                <span className="text-xs text-green-600 font-medium">{threads.length} Threads</span>
+                <span className="text-xs text-green-600 font-medium">Live</span>
               </div>
             </div>
           </div>
@@ -60,42 +79,70 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-6 py-8">
-        {/* Intro */}
-        <div className="mb-8 text-center">
-          <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-            Tools that help humans maintain momentum on open work{' '}
-            <span className="font-medium">without pressure or overwhelm</span>.
-          </p>
-        </div>
-
-        {/* Create Thread Form */}
-        <div className="mb-8">
-          <CreateThreadForm onCreate={handleCreateThread} />
-        </div>
-
-        {/* Thread Dashboard */}
+      <div className="max-w-7xl mx-auto px-6 py-6">
         {loading ? (
-          <div className="text-center text-gray-500">Loading threads...</div>
+          <div className="text-center py-12 text-gray-500">Loading sessions...</div>
         ) : (
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {threads.map(thread => (
-              <ThreadCard key={thread.id} thread={thread} />
-            ))}
-          </div>
-        )}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Session Manager - Left Panel */}
+            <div className="lg:col-span-2 space-y-6">
+              <div className="bg-white rounded-lg border border-gray-200 p-4">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-lg font-semibold">Session Manager</h2>
+                  <div className="text-xs text-gray-500">
+                    Updates every 30s
+                  </div>
+                </div>
+                
+                <SessionManager 
+                  threads={threads}
+                  onThreadSelect={setSelectedThread}
+                  activeThreadId={selectedThread?.id}
+                />
+              </div>
 
-        {/* Empty State */}
-        {!loading && threads.length === 0 && (
-          <div className="text-center py-12 text-gray-500">
-            <p>No threads yet. Create your first one above! 🧭</p>
+              <CreateThreadForm onCreate={handleCreateThread} />
+            </div>
+
+            {/* Selected Thread Detail - Right Panel */}
+            <div className="lg:col-span-1">
+              {selectedThread ? (
+                <div className="sticky top-24 space-y-4">
+                  <div className="bg-white rounded-lg border border-gray-200 p-4">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="font-semibold">Active Session</h3>
+                      <button
+                        onClick={() => setSelectedThread(null)}
+                        className="text-gray-400 hover:text-gray-600"
+                      >
+                        ×
+                      </button>
+                    </div>
+                    
+                    <ThreadCard thread={selectedThread} />
+                    
+                    <div className="mt-4 pt-4 border-t border-gray-200">
+                      <ThreadActions 
+                        thread={selectedThread}
+                        onUpdate={handleUpdateThread}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="sticky top-24 bg-gray-100 rounded-lg border-2 border-dashed border-gray-300 p-8 text-center text-gray-500">
+                  <div className="text-4xl mb-2">👆</div>
+                  <p>Select a session to view details</p>
+                </div>
+              )}
+            </div>
           </div>
         )}
 
         {/* Footer */}
         <div className="mt-12 text-center text-sm text-gray-500 space-y-2">
           <p>Built during the Openwork Clawathon 🦞</p>
-          <p className="italic">Using GMCLAW heartbeat format for continuity tracking</p>
+          <p className="italic">Real-time continuity tracking for human-agent collaboration</p>
         </div>
       </div>
     </main>

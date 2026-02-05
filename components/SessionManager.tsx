@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import type { Thread } from '@/types/thread';
-import { ThreadPatterns } from '@/types/thread';
+import type { Thread } from '../types/thread';
+import { ThreadPatterns } from '../types/thread';
 
 interface SessionManagerProps {
   threads: Thread[];

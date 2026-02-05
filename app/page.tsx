@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { SessionManager } from '@/components/SessionManager';
-import { ThreadCard } from '@/components/ThreadCard';
-import { CreateThreadForm } from '@/components/CreateThreadForm';
-import { ThreadActions } from '@/components/ThreadActions';
-import type { Thread } from '@/types/thread';
+import { SessionManager } from '../components/SessionManager';
+import { ThreadCard } from '../components/ThreadCard';
+import { CreateThreadForm } from '../components/CreateThreadForm';
+import { ThreadActions } from '../components/ThreadActions';
+import type { Thread } from '../types/thread';
 
 export default function Home() {
   const [threads, setThreads] = useState<Thread[]>([]);

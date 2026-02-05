@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { Thread } from '@/types/thread';
+import type { Thread } from '../types/thread';
 
 interface ThreadActionsProps {
   thread: Thread;

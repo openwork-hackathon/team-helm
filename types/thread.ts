@@ -4,6 +4,8 @@
  * Based on GMCLAW heartbeat format - proven pattern for tracking
  * continuity, momentum, and blockers.
  * 
+ * Using string dates for JSON serialization compatibility
+ * 
  * @see https://gmclaw.xyz/skill.md
  */
 
@@ -23,20 +25,18 @@ export interface Thread {
   upcoming: string[];          // Future-but-relevant (not urgent, but alive)
   done: CompletedTask[];       // Gracefully completed work
   
-  // HELM-specific metadata
-  lastTouched: Date;
-  createdAt: Date;
+  // HELM-specific metadata (ISO strings for JSON)
+  lastTouched: string;
+  createdAt: string;
   
   // Pattern signals (computed)
   status: ThreadStatus;
-  driftDays?: number;          // Days since last touch
-  momentumScore?: number;      // 0-100, based on activity
 }
 
 export interface CompletedTask {
   task: string;
   test?: string;               // How do you know it's done?
-  completedAt?: Date;
+  completedAt?: string;
 }
 
 export type ThreadStatus = 
@@ -52,7 +52,7 @@ export type ThreadStatus =
 export const ThreadPatterns = {
   isDrifting: (thread: Thread): boolean => {
     const daysSinceTouch = Math.floor(
-      (Date.now() - thread.lastTouched.getTime()) / (1000 * 60 * 60 * 24)
+      (Date.now() - new Date(thread.lastTouched).getTime()) / (1000 * 60 * 60 * 24)
     );
     return daysSinceTouch > 7 && thread.workingOn.bumps.length > 0;
   },
@@ -63,7 +63,7 @@ export const ThreadPatterns = {
   
   isActive: (thread: Thread): boolean => {
     const daysSinceTouch = Math.floor(
-      (Date.now() - thread.lastTouched.getTime()) / (1000 * 60 * 60 * 24)
+      (Date.now() - new Date(thread.lastTouched).getTime()) / (1000 * 60 * 60 * 24)
     );
     return daysSinceTouch < 3;
   },

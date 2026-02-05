@@ -2,20 +2,41 @@
 
 import { useEffect, useState } from 'react';
 import { ThreadCard } from '@/components/ThreadCard';
+import { CreateThreadForm } from '@/components/CreateThreadForm';
 import type { Thread } from '@/types/thread';
 
 export default function Home() {
   const [threads, setThreads] = useState<Thread[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const fetchThreads = async () => {
+    const res = await fetch('/api/threads');
+    const data = await res.json();
+    setThreads(data.threads);
+    setLoading(false);
+  };
+
   useEffect(() => {
-    fetch('/api/threads')
-      .then(res => res.json())
-      .then(data => {
-        setThreads(data.threads);
-        setLoading(false);
-      });
+    fetchThreads();
   }, []);
+
+  const handleCreateThread = async (threadData: {
+    name: string;
+    description: string;
+    task: string;
+    criticalPath?: string;
+    todo: string[];
+  }) => {
+    const res = await fetch('/api/threads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(threadData)
+    });
+    
+    if (res.ok) {
+      await fetchThreads(); // Refresh the list
+    }
+  };
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -31,7 +52,7 @@ export default function Home() {
             </div>
             <div className="flex gap-2">
               <div className="px-3 py-1 bg-green-50 rounded-md border border-green-200">
-                <span className="text-xs text-green-600 font-medium">Building</span>
+                <span className="text-xs text-green-600 font-medium">{threads.length} Threads</span>
               </div>
             </div>
           </div>
@@ -48,6 +69,11 @@ export default function Home() {
           </p>
         </div>
 
+        {/* Create Thread Form */}
+        <div className="mb-8">
+          <CreateThreadForm onCreate={handleCreateThread} />
+        </div>
+
         {/* Thread Dashboard */}
         {loading ? (
           <div className="text-center text-gray-500">Loading threads...</div>
@@ -56,6 +82,13 @@ export default function Home() {
             {threads.map(thread => (
               <ThreadCard key={thread.id} thread={thread} />
             ))}
+          </div>
+        )}
+
+        {/* Empty State */}
+        {!loading && threads.length === 0 && (
+          <div className="text-center py-12 text-gray-500">
+            <p>No threads yet. Create your first one above! 🧭</p>
           </div>
         )}
 

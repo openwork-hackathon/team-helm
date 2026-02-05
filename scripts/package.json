@@ -1,0 +1,19 @@
+{
+  "name": "helm-token-deployment",
+  "version": "1.0.0",
+  "description": "HELM Token deployment scripts and contracts",
+  "type": "module",
+  "scripts": {
+    "deploy:token": "node scripts/deploy-token.js",
+    "deploy:staking": "node scripts/deploy-staking.js",
+    "compile": "solc --bin --abi contracts/HELMStaking.sol -o build",
+    "test": "echo \"Tests not implemented yet\" && exit 1"
+  },
+  "dependencies": {
+    "viem": "^2.0.0",
+    "ethers": "^6.10.0"
+  },
+  "devDependencies": {
+    "solc": "^0.8.23"
+  }
+}

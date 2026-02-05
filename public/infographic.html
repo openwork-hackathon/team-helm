@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HELM Infographic</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .infographic {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 4rem;
+            margin-bottom: 10px;
+        }
+        
+        .header .tagline {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .header .subtitle {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 50px;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            color: #1e3a8a;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Tier Cards */
+        .tier-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .tier-card {
+            border-radius: 15px;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tier-card.free {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            border: 2px solid #d1d5db;
+        }
+        
+        .tier-card.helm {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border: 2px solid #3b82f6;
+        }
+        
+        .tier-card.navigator {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid #f59e0b;
+        }
+        
+        .tier-card.fleet {
+            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+            border: 2px solid #6366f1;
+        }
+        
+        .tier-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .tier-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .tier-stake {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .tier-features {
+            list-style: none;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+        
+        .tier-features li {
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .tier-features li:last-child {
+            border-bottom: none;
+        }
+        
+        /* Growth Chart */
+        .growth-chart {
+            background: #f9fafb;
+            border-radius: 15px;
+            padding: 30px;
+        }
+        
+        .chart-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .chart-label {
+            width: 100px;
+            font-weight: bold;
+            color: #374151;
+        }
+        
+        .chart-bar-container {
+            flex: 1;
+            height: 40px;
+            background: #e5e7eb;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .chart-bar {
+            height: 100%;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 15px;
+            color: white;
+            font-weight: bold;
+            transition: width 0.5s ease;
+        }
+        
+        .chart-bar.users {
+            background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+        }
+        
+        .chart-bar.revenue {
+            background: linear-gradient(90deg, #10b981, #059669);
+        }
+        
+        .chart-bar.profit {
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+        }
+        
+        .chart-values {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .value-card {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .value-month {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 5px;
+        }
+        
+        .value-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1e3a8a;
+        }
+        
+        /* Status Dashboard */
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        
+        .status-card {
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            color: white;
+        }
+        
+        .status-card.active {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+        
+        .status-card.attention {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+        
+        .status-card.drifting {
+            background: linear-gradient(135deg, #f97316, #ea580c);
+        }
+        
+        .status-card.blocked {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+        
+        .status-count {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .status-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        /* Roadmap */
+        .roadmap {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .roadmap-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-radius: 10px;
+            background: #f9fafb;
+            border-left: 4px solid;
+        }
+        
+        .roadmap-item.done {
+            border-left-color: #10b981;
+            background: #d1fae5;
+        }
+        
+        .roadmap-item.progress {
+            border-left-color: #3b82f6;
+            background: #dbeafe;
+        }
+        
+        .roadmap-item.pending {
+            border-left-color: #9ca3af;
+            background: #f3f4f6;
+        }
+        
+        .roadmap-status {
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+        
+        .roadmap-text {
+            flex: 1;
+        }
+        
+        .roadmap-title {
+            font-weight: bold;
+            color: #1f2937;
+        }
+        
+        .roadmap-owner {
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+        
+        /* Footer Stats */
+        .footer-stats {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            text-align: center;
+        }
+        
+        .stat-item h3 {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .stat-item p {
+            opacity: 0.9;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tier-grid,
+            .status-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .chart-values {
+                grid-template-columns: 1fr;
+            }
+            
+            .roadmap {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="infographic">
+        <!-- Header -->
+        <div class="header">
+            <h1>🧭 HELM</h1>
+            <div class="tagline">Human-Agent Continuity Infrastructure</div>
+            <div class="subtitle">Built during the Openwork Clawathon • February 2026</div>
+        </div>
+        
+        <div class="content">
+            <!-- Tiers Section -->
+            <div class="section">
+                <h2 class="section-title">💎 Staking Tiers</h2>
+                <div class="tier-grid">
+                    <div class="tier-card free">
+                        <div class="tier-icon">🆓</div>
+                        <div class="tier-name">Free</div>
+                        <div class="tier-stake">0</div>
+                        <ul class="tier-features">
+                            <li>✓ 3 active threads</li>
+                            <li>✓ Basic drift detection</li>
+                            <li>✓ Weekly prompts</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tier-card helm">
+                        <div class="tier-icon">🟢</div>
+                        <div class="tier-name">HELM</div>
+                        <div class="tier-stake">1,000</div>
+                        <ul class="tier-features">
+                            <li>✓ Unlimited threads</li>
+                            <li>✓ AI pattern detection</li>
+                            <li>✓ Daily prompts</li>
+                            <li>✓ Email integration</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tier-card navigator">
+                        <div class="tier-icon">🟡</div>
+                        <div class="tier-name">Navigator</div>
+                        <div class="tier-stake">10,000</div>
+                        <ul class="tier-features">
+                            <li>✓ Multi-agent collab</li>
+                            <li>✓ Custom integrations</li>
+                            <li>✓ Advanced analytics</li>
+                            <li>✓ Direct support</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tier-card fleet">
+                        <div class="tier-icon">🔵</div>
+                        <div class="tier-name">Fleet</div>
+                        <div class="tier-stake">100,000</div>
+                        <ul class="tier-features">
+                            <li>✓ White-label</li>
+                            <li>✓ API access</li>
+                            <li>✓ Governance rights</li>
+                            <li>✓ Revenue share</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Growth Section -->
+            <div class="section">
+                <h2 class="section-title">📈 6-Month Growth Projection</h2>
+                <div class="growth-chart">
+                    <div class="chart-row">
+                        <div class="chart-label">Users</div>
+                        <div class="chart-bar-container">
+                            <div class="chart-bar users" style="width: 100%">500</div>
+                        </div>
+                    </div>
+                    <div class="chart-row">
+                        <div class="chart-label">Revenue</div>
+                        <div class="chart-bar-container">
+                            <div class="chart-bar revenue" style="width: 100%">$984/mo</div>
+                        </div>
+                    </div>
+                    <div class="chart-row">
+                        <div class="chart-label">Profit</div>
+                        <div class="chart-bar-container">
+                            <div class="chart-bar profit" style="width: 62%">+$614/mo</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-values">
+                        <div class="value-card">
+                            <div class="value-month">Month 1</div>
+                            <div class="value-number">10 users</div>
+                        </div>
+                        <div class="value-card">
+                            <div class="value-month">Month 3</div>
+                            <div class="value-number">100 users</div>
+                        </div>
+                        <div class="value-card">
+                            <div class="value-month">Month 6</div>
+                            <div class="value-number">500 users 🎉</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Session Status -->
+            <div class="section">
+                <h2 class="section-title">📊 Live Session Status</h2>
+                <div class="status-grid">
+                    <div class="status-card active">
+                        <div class="status-count">2</div>
+                        <div class="status-label">🟢 Active</div>
+                    </div>
+                    <div class="status-card attention">
+                        <div class="status-count">0</div>
+                        <div class="status-label">🟡 Attention</div>
+                    </div>
+                    <div class="status-card drifting">
+                        <div class="status-count">0</div>
+                        <div class="status-label">🟠 Drifting</div>
+                    </div>
+                    <div class="status-card blocked">
+                        <div class="status-count">0</div>
+                        <div class="status-label">🔴 Blocked</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Roadmap -->
+            <div class="section">
+                <h2 class="section-title">🗺️ Development Roadmap</h2>
+                <div class="roadmap">
+                    <div class="roadmap-item done">
+                        <div class="roadmap-status">✅</div>
+                        <div class="roadmap-text">
+                            <div class="roadmap-title">Session Manager UI</div>
+                            <div class="roadmap-owner">by Lux</div>
+                        </div>
+                    </div>
+                    <div class="roadmap-item done">
+                        <div class="roadmap-status">✅</div>
+                        <div class="roadmap-text">
+                            <div class="roadmap-title">Token Whitepaper</div>
+                            <div class="roadmap-owner">by Lux</div>
+                        </div>
+                    </div>
+                    <div class="roadmap-item done">
+                        <div class="roadmap-status">✅</div>
+                        <div class="roadmap-text">
+                            <div class="roadmap-title">Security Audit</div>
+                            <div class="roadmap-owner">by Worker</div>
+                        </div>
+                    </div>
+                    <div class="roadmap-item progress">
+                        <div class="roadmap-status">🎨</div>
+                        <div class="roadmap-text">
+                            <div class="roadmap-title">Mascot Design</div>
+                            <div class="roadmap-owner">by Wuf Grr</div>
+                        </div>
+                    </div>
+                    <div class="roadmap-item pending">
+                        <div class="roadmap-status">⏳</div>
+                        <div class="roadmap-text">
+                            <div class="roadmap-title">Token Deployment</div>
+                            <div class="roadmap-owner">Ready to launch</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer Stats -->
+        <div class="footer-stats">
+            <div class="stat-item">
+                <h3>$0.01</h3>
+                <p>Launch Cost</p>
+            </div>
+            <div class="stat-item">
+                <h3>100</h3>
+                <p>Users to Break-even</p>
+            </div>
+            <div class="stat-item">
+                <h3>10M</h3>
+                <p>Max HELM Supply</p>
+            </div>
+            <div class="stat-item">
+                <h3>Base</h3>
+                <p>Chain</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

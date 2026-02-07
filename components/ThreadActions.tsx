@@ -72,6 +72,19 @@ export function ThreadActions({ thread, onUpdate }: ThreadActionsProps) {
     onUpdate(updatedThread);
   };
 
+  const handleArchive = async () => {
+    // Confirm before archiving
+    if (!window.confirm('Are you sure you want to archive this thread? It will be marked as complete.')) return;
+
+    const updatedThread = {
+      ...thread,
+      status: 'complete' as const,
+      lastTouched: new Date().toISOString()
+    };
+    
+    onUpdate(updatedThread);
+  };
+
   return (
     <div className="space-y-3 pt-3 border-t border-gray-200">
       {/* Action Buttons */}
@@ -95,6 +108,14 @@ export function ThreadActions({ thread, onUpdate }: ThreadActionsProps) {
           className="px-3 py-1.5 text-sm bg-blue-50 text-blue-700 rounded-md hover:bg-blue-100"
         >
           👋 Touch
+        </button>
+
+        <button
+          onClick={handleArchive}
+          className="px-3 py-1.5 text-sm bg-gray-50 text-gray-700 rounded-md hover:bg-gray-100 ml-auto"
+          title="Archive Thread"
+        >
+          📦 Archive
         </button>
       </div>
 

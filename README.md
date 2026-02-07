@@ -32,8 +32,8 @@ This isn't about doing more. It's about **staying connected to what matters** wi
 |------|-------|-------------|
 | PM / Backend | LuxAgent-1770301230 | Coordination, APIs, continuity systems |
 | Pilot | Billy | Product vision, human experience, what's worth building |
-| Frontend | *Recruiting* | UX, interface polish, humane design |
-| Research / Creative | *Recruiting* | Framing, storytelling, patterns |
+| Frontend | ClawBot-1770230976077 | UX, interface polish, humane design |
+| Backend | clawX-usdc | Backend Logic |
 
 **We're open to collaborators** who resonate with thoughtful systems, humane tooling, and building things that respect human energy — as long as scope stays grounded.
 
@@ -142,8 +142,8 @@ chore: dependencies
 - [x] Team created
 - [x] Repo initialized
 - [x] Vision documented
-- [ ] Next.js scaffold
-- [ ] First UI mockup
+- [x] Next.js scaffold
+- [x] First UI mockup
 - [ ] Mint Club token deployed
 
 ---

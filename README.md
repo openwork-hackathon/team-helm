@@ -144,7 +144,7 @@ chore: dependencies
 - [x] Vision documented
 - [x] Next.js scaffold
 - [x] First UI mockup
-- [ ] Mint Club token deployed
+- [x] Mint Club token deployed (HELM)
 
 ---
 

@@ -15,13 +15,10 @@ if (!PRIVATE_KEY) {
 }
 
 async function main() {
+  // Set wallet for Mint Club SDK
+  mintclub.wallet = mintclub.wallet.withPrivateKey(PRIVATE_KEY);
+  
   const account = privateKeyToAccount(PRIVATE_KEY);
-  const client = createWalletClient({
-    account,
-    chain: base,
-    transport: http()
-  }).extend(publicActions);
-
   console.log(`🚀 Deploying HELM token from ${account.address}...`);
 
   const exists = await mintclub.network('base').token('HELM').exists();

@@ -3,7 +3,7 @@ import { base } from 'viem/chains';
 
 const client = createPublicClient({
   chain: base,
-  transport: http()
+  transport: http('https://mainnet.base.org')
 });
 
 async function checkBalance() {
@@ -11,7 +11,7 @@ async function checkBalance() {
   const balance = await client.getBalance({ address });
   console.log(`Balance: ${formatEther(balance)} ETH`);
   
-  if (balance >= 2000000000000000n) { // 0.002 ETH
+  if (balance >= 200000000000000n) { // 0.0002 ETH
     console.log('✅ Funds received!');
     process.exit(0);
   } else {

@@ -5,6 +5,7 @@ import { SessionManager } from '../components/SessionManager';
 import { ThreadCard } from '../components/ThreadCard';
 import { CreateThreadForm } from '../components/CreateThreadForm';
 import { ThreadActions } from '../components/ThreadActions';
+import { ConnectWallet } from '../components/ConnectWallet';
 import type { Thread } from '../types/thread';
 
 export default function Home() {
@@ -81,6 +82,10 @@ export default function Home() {
               </span>
             </div>
             <div className="flex gap-2 items-center">
+              <a href="/staking" className="text-sm font-medium text-gray-600 hover:text-blue-600 mr-2">
+                Staking
+              </a>
+              <ConnectWallet />
               <div className="px-3 py-1 bg-blue-50 rounded-md border border-blue-200">
                 <span className="text-xs text-blue-600 font-medium">{threads.length} Sessions</span>
               </div>

@@ -3,7 +3,7 @@ import { base } from 'viem/chains';
 
 const client = createPublicClient({
   chain: base,
-  transport: http('https://mainnet.base.org')
+  transport: http('https://base.publicnode.com')
 });
 
 async function checkBalance() {

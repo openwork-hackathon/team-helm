@@ -71,6 +71,24 @@ export const ThreadPatterns = {
   needsAttention: (thread: Thread): boolean => {
     return ThreadPatterns.isDrifting(thread) || 
            ThreadPatterns.isBlocked(thread);
+  },
+
+  getMomentumScore: (thread: Thread): number => {
+    if (thread.status === 'complete') return 100;
+    
+    let score = 100;
+    
+    // Decay: -5 per day since touch (grace period: 2 days)
+    const daysSinceTouch = Math.max(0, Math.floor(
+      (Date.now() - new Date(thread.lastTouched).getTime()) / (1000 * 60 * 60 * 24)
+    ) - 2);
+    score -= daysSinceTouch * 5;
+    
+    // Bumps: -15 per active bump
+    score -= thread.workingOn.bumps.length * 15;
+    
+    // Clamp
+    return Math.max(0, Math.min(100, score));
   }
 };
 

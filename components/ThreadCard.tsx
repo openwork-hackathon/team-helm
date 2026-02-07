@@ -28,15 +28,29 @@ export function ThreadCard({ thread }: ThreadCardProps) {
     complete: '✅'
   };
 
+  const momentum = ThreadPatterns.getMomentumScore(thread);
+  const momentumColor = momentum > 80 ? 'bg-green-500' : momentum > 50 ? 'bg-yellow-500' : 'bg-red-500';
+
   return (
     <div className={`rounded-lg border-2 p-4 ${statusColors[thread.status]}`}>
       {/* Header */}
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1">
-          <h3 className="text-lg font-semibold flex items-center gap-2">
-            <span>{statusEmoji[thread.status]}</span>
-            {thread.name}
-          </h3>
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-semibold flex items-center gap-2">
+              <span>{statusEmoji[thread.status]}</span>
+              {thread.name}
+            </h3>
+            <div className="flex items-center gap-1 text-xs font-medium text-gray-500" title="Momentum Score">
+              <span>⚡ {momentum}</span>
+              <div className="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div 
+                  className={`h-full ${momentumColor}`} 
+                  style={{ width: `${momentum}%` }}
+                />
+              </div>
+            </div>
+          </div>
           {thread.description && (
             <p className="text-sm text-gray-600 mt-1">{thread.description}</p>
           )}

@@ -45,12 +45,26 @@ export default function Home() {
   };
 
   const handleUpdateThread = async (updatedThread: Thread) => {
-    // TODO: Implement PUT endpoint
-    console.log('Update thread:', updatedThread);
-    // For now, just update local state
+    // Optimistic update
     setThreads(threads.map(t => t.id === updatedThread.id ? updatedThread : t));
     if (selectedThread?.id === updatedThread.id) {
       setSelectedThread(updatedThread);
+    }
+
+    try {
+      const res = await fetch('/api/threads', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedThread)
+      });
+      
+      if (!res.ok) {
+        throw new Error('Failed to update thread');
+      }
+    } catch (error) {
+      console.error('Error updating thread:', error);
+      // Revert on failure (optional, but good practice)
+      fetchThreads();
     }
   };
 

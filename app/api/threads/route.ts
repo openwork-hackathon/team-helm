@@ -97,3 +97,18 @@ export async function POST(request: Request) {
   
   return NextResponse.json({ thread: newThread });
 }
+
+export async function PUT(request: Request) {
+  const body = await request.json();
+  const threads = await getThreads();
+  
+  const index = threads.findIndex(t => t.id === body.id);
+  if (index === -1) {
+    return NextResponse.json({ error: 'Thread not found' }, { status: 404 });
+  }
+  
+  threads[index] = body;
+  await saveThreads(threads);
+  
+  return NextResponse.json({ thread: threads[index] });
+}
